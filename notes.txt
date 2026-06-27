@@ -1,0 +1,72 @@
+# Summary of "The Little Book of Big Dividends" by Charles Carlson
+- Dividend yield alone is a dangerous metric
+  - High dividend yields are often indicators of distress and signal potential dividend cuts
+  - Better to invest in healthy companies with sustainable dividends
+- Use a two-factor screening process (ie the Basic BSD Formula)
+  - Set upper threshold of 60% of profits consumed by dividend
+  - Use a quality filter such as the proprietary Quadrix Score, specifically 75 or higher
+    - It ranks a stock based on several metrics' relative performance as a percentile
+      - Ie the stock with best metric value gets a 100, the lowest gets a 0
+    - Then all the metric percentiles are (weight) averaged and re-ranked for a final score
+    - Metric categories: Value, Quality, Momentum, Financial strength, Earnings estimates, Performance
+
+# Simulating the Quadrix Score
+- Using 10-Q (Quarterly Progress) and 10-K (Annual Comprehensive) from the SEC
+  - Ref: https://www.sec.gov/data-research/sec-markets-data/financial-statement-data-sets
+  - Note that the Q1 10-Q reports three months of activity, the Q2 six months and the Q3 nine months
+
+- The category metrics are percentile ranked prior then (weight) averaged
+  - In some cases they are first inverted, so higher values are always better values
+
+- Value metrics (weight 25%)
+  - P/FCF (Price to Free Cash Flow) (inverted, weight 60%)
+    - Price to Free Cash Flow = Market Capitalization / Total Stockholders Equity
+    - Market Capitalization = Outstanding Shares * Share Price
+    - SEC Tag: StockholdersEquity
+  - P/E (Price to Earnings) (inverted, weight 40%)
+    - Market Price per Share / Diluated Earnings Per Share
+    - SEC Tag: DilutedEarningsPerShare
+
+- Quality metrics (weight 25%)
+  - ROE (Return on Equity) (weight 45%)
+    - Net Income (TTM) / Total Stockholders Equity
+      - TTM: Trailing Twelve Months
+    - SEC Tags: NetIncomeLoss, StockholdersEquity
+  - ROA (Return on Assets) (weight 35%)
+    - Net Income (TTM) / Total Assets
+    - SEC Tags: NetIncomeLoss, Assets
+  - Operating Margin (weight 20%)
+    - Operating Income / Total Revenues
+    - SEC Tags: OperatingIncomeLoss, Revenues
+
+- Momentum metrics (weight 20%)
+  - Quarterly FCF Growth (YoY) (weight 50%)
+    - (Free Cash Flow (Current Quarter) / Free Cash Flow (Same Quarter Prior Year)) - 1
+  - Quarterly Operating Income Growth (YoY) (weight 30%)
+    - (Operating Income (Current Quarter) / Operating Income (Same Quarter Prior Year)) - 1
+  - Quarterly Revenue Growth (YoY) (weight 20%)
+    - (Revenue (Current Quarter) / Revenue (Same Quarter Prior Year)) - 1
+
+- Financial strength metrics (weight 10%)
+  - Interest Coverage Ratio (weight 60%)
+    - Operating Income (EBIT) / Interest Expense
+    - SEC Tags: OperatingIncomeLoss / InterestExpense
+  - Total Debt to Equity (inverted, weight 40%)
+    - (Short-Term Debt + Long-Term Debt) / Total Stockholders Equity
+    - SEC Tags: ShortTermBorrowings, LongTermDebt, StockholdersEquity
+
+- Earnings estimates metrics (weight 10%)
+  - Sequential Diluted EPS Growth (weight 70%)
+    - (Diluted EPS (Current Quarter) / Diluted EPS (Previous Quarter)) - 1
+  - Filing Timeliness Index (inverted, weight 30%)
+    - Number of days between the quarter end date and SEC report acceptance date
+    - SEC Tags: PeriodEndOfReport, FilingDate
+
+- Performance metrics (weight 10%)
+  - Price Momentum Correlation (weight 50%)
+    - The three-month (weight 30%) and six-month (weight 70%) total returns
+  - Book Value to Market Cap Reversion Potential (weight 50%)
+    - Book Value to Market Cap Reversion Potential = Stockholders Equity / Market Capitalization
+    - Stockholders Equity = Total Assets - Total Liabilities
+    - SEC Tag: StockholdersEquity
+

@@ -1,0 +1,13 @@
+[package]
+name = "backtest-bsd"
+version = "0.1.0"
+edition = "2024"
+authors = ["J. O. Makar <jomakar@gmail.com>"]
+repository = "https://github.com/jo-makar/backtest-bsd"
+
+[dependencies]
+chrono = { version = "0.4.45", features = ["serde"] }
+csv = "1.4.0"
+log = "0.4.33"
+serde = { version = "1.0.228", features = ["derive"] }
+simple_logger = { version = "5.2.0", features = ["threads"] }
