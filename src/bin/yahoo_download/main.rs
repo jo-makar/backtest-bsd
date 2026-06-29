@@ -38,7 +38,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     #[allow(non_snake_case)]
     let START_DATE_TS: i64 = {
-        let date = NaiveDate::from_ymd_opt(2009, 1, 1).unwrap();
+        let date = NaiveDate::from_ymd_opt(2008, 1, 1).unwrap();
         let datetime = date.and_hms_opt(0, 0, 0).unwrap();
         Utc.from_utc_datetime(&datetime).timestamp()
     };
