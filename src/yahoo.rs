@@ -1,3 +1,4 @@
+use chrono::{DateTime, NaiveDate};
 use serde_json::{Map, Value};
 
 use std::error::Error;
@@ -35,6 +36,30 @@ pub fn parse_chart(s: &String) -> Result<Chart, Box<dyn Error + Send + Sync>> {
         let value = meta.get("symbol").ok_or("missing 'symbol'")?;
         value.as_str().ok_or("not string")?.to_owned()
     };
+
+    let dates: Vec<NaiveDate> = {
+        let value = result
+            .get("timestamp")
+            .ok_or(format!("{} missing 'timestamp'", symbol))?;
+
+        let timestamps: &Vec<Value> = value.as_array().ok_or("not_array")?;
+        timestamps
+            .into_iter()
+            .map(|ts| -> Result<NaiveDate, Box<dyn Error + Send + Sync>> {
+                let ts = ts
+                    .as_number()
+                    .ok_or("not number")?
+                    .as_i64()
+                    .ok_or("not i64")?;
+                Ok(DateTime::from_timestamp(ts, 0)
+                    .map(|dt| dt.naive_utc().date())
+                    .ok_or("invalid ts")?)
+            })
+            .collect::<Result<Vec<NaiveDate>, Box<dyn Error + Send + Sync>>>()?
+    };
+    if dates.is_empty() {
+        return Err(format!("no dates").into());
+    }
 
     // FIXME STOPPED
 
